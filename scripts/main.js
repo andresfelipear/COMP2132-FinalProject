@@ -29,6 +29,11 @@ let numRounds          = 0;
 const $popUp = $('.pop-up');
 const $closePopup  = $('#close-popup');
 
+// icons
+const faceSmile = `<i class="fa-solid fa-face-smile"></i>`;
+const skull     = `<i class="fa-solid fa-skull-crossbones"></i>`;
+const faceMeh   = `<i class="fa-solid fa-face-meh"></i>`
+
 $rollDice.click(rollDice);
 $closePopup.click(function(){
     $popUp.css('display', 'none').fadeOut(DURATION_ANIMATION);
@@ -188,21 +193,25 @@ function getPlayerScore(dice1, dice2)
 function defineWinner( totalScorePlayer, totalScoreOpponent)
 {
     let popUpText = "";
+    let icon      = "";
 
     if(totalScorePlayer > totalScoreOpponent)
     {
-        popUpText = "You Won!";
+        popUpText = "You Won! ";
+        icon      = faceSmile;
     }
     else if(totalScorePlayer < totalScoreOpponent)
     {
-        popUpText = "You Lost!";
+        popUpText = "You Lost! ";
+        icon      = skull;
     }
     else
     {
-        popUpText = "You Draw!";
+        popUpText = "You Draw! ";
+        icon      = faceMeh;
     }
 
-    $popUp.find("p").text(popUpText);
+    $popUp.find("p").text(popUpText).append(icon);
     $popUp.fadeIn(DURATION_ANIMATION)
 }
 
