@@ -6,7 +6,9 @@ const players   = ["player", "opponent"];
 const DURATION_ANIMATION = 500; // 500ms
 
 // data
-const dices = fetchData();
+const dices   = fetchData();
+const diceSet = new DiceSet();
+populateDiceSet(dices);
 
 players.forEach( player => {
     $game.append(createPlayer(player));
@@ -81,11 +83,11 @@ function rollDice()
     }
     else
     {
-        const dice1Player   = getRandomDice();
-        const dice2Player   = getRandomDice();
-        const dice1Opponent = getRandomDice();
-        const dice2Opponent = getRandomDice();
-    
+        const dice1Player   = diceSet.getRandomDice();
+        const dice2Player   = diceSet.getRandomDice();
+        const dice1Opponent = diceSet.getRandomDice();
+        const dice2Opponent = diceSet.getRandomDice();
+
         appendImageAsChild($dice1Player, dice1Player);
         appendImageAsChild($dice2Player, dice2Player);
         appendImageAsChild($dice1Opponent, dice1Opponent);
@@ -106,57 +108,43 @@ function rollDice()
     }
 }
 
-function fetchData(fileLocation)
+function fetchData()
 {
     const jsonString = `
     [
         {
             "name": "one",
             "value": 1,
-            "picture": "../images/dices/dice-six-faces-one.svg"
+            "url": "../images/dices/dice-six-faces-one.svg"
         },
         {
             "name": "two",
             "value": 2,
-            "picture": "../images/dices/dice-six-faces-two.svg"
+            "url": "../images/dices/dice-six-faces-two.svg"
         },
         {
             "name": "three",
             "value": 3,
-            "picture": "../images/dices/dice-six-faces-three.svg"
+            "url": "../images/dices/dice-six-faces-three.svg"
         },
         {
             "name": "four",
             "value": 4,
-            "picture": "../images/dices/dice-six-faces-four.svg"
+            "url": "../images/dices/dice-six-faces-four.svg"
         },
         {
             "name": "five",
             "value": 5,
-            "picture": "../images/dices/dice-six-faces-five.svg"
+            "url": "../images/dices/dice-six-faces-five.svg"
         },
         {
             "name": "six",
             "value": 6,
-            "picture": "../images/dices/dice-six-faces-six.svg"
+            "url": "../images/dices/dice-six-faces-six.svg"
         }
     ]`;
 
     return JSON.parse(jsonString);
-}
-
-function getRandomDice()
-{
-    return dices[Math.floor(Math.random() * dices.length)];
-}
-
-function getImageFromDice(dice)
-{
-    const image = new Image();
-    image.src = dice.picture;
-    image.alt = dice.name;
-
-    return image;
 }
 
 function appendImageAsChild(element, dice)
@@ -164,29 +152,39 @@ function appendImageAsChild(element, dice)
     if(element.find("img").length > 0)
     {
         element.find("img")
-                .attr("src", dice.picture)
-                .attr("alt", dice.name)
+                .attr("src", dice.getUrl())
+                .attr("alt", dice.getName())
                 .fadeIn(DURATION_ANIMATION);
     }
     else
     {
-        element.append(getImageFromDice(dice));
+        const image = dice.getImage().cloneNode();
+        element.append(image);
     }
+}
+
+function getImageFromDice(dice)
+{
+    const image = new Image();
+    image.src = dice.getUrl();
+    image.alt = dice.getName();
+
+    return image;
 }
 
 function getPlayerScore(dice1, dice2)
 {
-    if(dice1.value == 1 || dice2.value == 1)
+    if(dice1.getValue() == 1 || dice2.getValue() == 1)
     {
         return 0;
     }
-    else if(dice1.value === dice2.value)
+    else if(dice1.getValue() === dice2.getValue())
     {
-        return 2*(dice1.value + dice2.value);
+        return 2*(dice1.getValue() + dice2.getValue());
     }
     else
     {
-        return dice1.value + dice2.value;
+        return dice1.getValue() + dice2.getValue();
     }
 }
 
@@ -232,4 +230,12 @@ function newGame()
     $('#total-score-player p').text(totalScorePlayer);
     $('#score-opponent p').text(scoreOpponent);
     $('#total-score-opponent p').text(totalScoreOpponent);
+}
+
+function populateDiceSet(dices)
+{
+    dices.forEach( dice =>
+    {
+        diceSet.addDice(new Dice(dice.name, dice.value, dice.url));
+    })
 }

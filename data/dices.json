@@ -2,31 +2,31 @@
     {
         "name": "one",
         "value": 1,
-        "picture": "../images/dices/dice-six-faces-one.svg"
+        "url": "../images/dices/dice-six-faces-one.svg"
     },
     {
         "name": "two",
         "value": 2,
-        "picture": "../images/dices/dice-six-faces-two.svg"
+        "url": "../images/dices/dice-six-faces-two.svg"
     },
     {
         "name": "three",
         "value": 3,
-        "picture": "../images/dices/dice-six-faces-three.svg"
+        "url": "../images/dices/dice-six-faces-three.svg"
     },
     {
         "name": "four",
         "value": 4,
-        "picture": "../images/dices/dice-six-faces-four.svg"
+        "url": "../images/dices/dice-six-faces-four.svg"
     },
     {
         "name": "five",
         "value": 5,
-        "picture": "../images/dices/dice-six-faces-five.svg"
+        "url": "../images/dices/dice-six-faces-five.svg"
     },
     {
         "name": "six",
         "value": 6,
-        "picture": "../images/dices/dice-six-faces-six.svg"
+        "url": "../images/dices/dice-six-faces-six.svg"
     }
 ]
